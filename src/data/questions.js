@@ -16,7 +16,7 @@ export const questions = [
   {
     question: "What's my red flag?",
     options: ["Overthinks", "Too clingy", "Too hot", "None (perfect)"],
-    correct: "Overthinks",
+    correct: "None (perfect)",
     rightResponse: "Self-aware and proud! 🧠🚩",
     wrongResponse: "It's None (perfect) but 'too hot' was close 😂🔥",
   },
