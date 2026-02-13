@@ -1,0 +1,897 @@
+/* ============================
+   Love Points: Perry vs Gandu
+   Global Styles
+   ============================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --pink: #ff9a9e;
+  --peach: #fad0c4;
+  --lavender: #fbc2eb;
+  --purple: #a18cd1;
+  --dark: #1a0a1e;
+  --glass: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.18);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, var(--pink), var(--lavender), var(--purple));
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  color: #fff;
+  min-height: 100vh;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ---- App container ---- */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 20px;
+  padding-top: 10px;
+}
+
+/* ========================================
+   FLOATING HEARTS
+   ======================================== */
+.floating-hearts-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -40px;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-110vh) rotate(360deg) scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   MUTE BUTTON
+   ======================================== */
+.mute-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.mute-btn:hover {
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   LOADING SCREEN
+   ======================================== */
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background: #0d0d0d;
+  position: fixed;
+  inset: 0;
+  padding: 24px;
+}
+
+.terminal {
+  max-width: 520px;
+  width: 100%;
+}
+
+.terminal-line {
+  font-family: "Courier New", monospace;
+  font-size: 1.05rem;
+  color: #00ff88;
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px #00ff8866;
+}
+
+.terminal-line.done {
+  opacity: 0.6;
+}
+
+.terminal-line.typing {
+  opacity: 1;
+}
+
+.cursor {
+  animation: blink 0.6s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.start-btn {
+  margin-top: 40px;
+  padding: 16px 36px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--pink), var(--lavender));
+  color: #fff;
+  cursor: pointer;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 24px rgba(255, 154, 158, 0.4);
+  transition: box-shadow 0.3s;
+}
+
+.start-btn:hover {
+  box-shadow: 0 6px 32px rgba(255, 154, 158, 0.65);
+}
+
+/* ========================================
+   GAME LAYOUT
+   ======================================== */
+.game-layout {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+/* ========================================
+   LEADERBOARD
+   ======================================== */
+.leaderboard {
+  width: 100%;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 20px 28px;
+  margin-bottom: 24px;
+  text-align: center;
+  position: relative;
+}
+
+.leaderboard-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.leaderboard-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.player-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.crown {
+  font-size: 1.3rem;
+  min-width: 24px;
+  animation: floatCrown 1.5s ease-in-out infinite;
+}
+
+@keyframes floatCrown {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.player-name {
+  font-weight: 700;
+}
+
+.gandu-name {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+}
+
+.gandu-name:hover {
+  color: var(--peach);
+}
+
+.separator {
+  opacity: 0.5;
+}
+
+.points {
+  font-weight: 800;
+  text-shadow: 0 0 12px rgba(255, 77, 109, 0.5);
+}
+
+/* Easter egg popup */
+.easter-egg-popup {
+  position: absolute;
+  bottom: -48px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--purple), var(--lavender));
+  padding: 10px 24px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(161, 140, 209, 0.5);
+  z-index: 10;
+}
+
+/* ========================================
+   ROUND TITLES
+   ======================================== */
+.round-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.question-progress,
+.dare-progress {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+/* ========================================
+   QUESTION CARD (Round 1)
+   ======================================== */
+.question-card {
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+
+.question-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.option-btn {
+  padding: 14px 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  border: 2px solid var(--glass-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.option-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.option-btn:disabled {
+  cursor: default;
+}
+
+.option-btn.correct {
+  background: rgba(0, 255, 120, 0.25);
+  border-color: #00ff78;
+}
+
+.option-btn.wrong {
+  background: rgba(255, 60, 60, 0.25);
+  border-color: #ff3c3c;
+}
+
+/* shake animation */
+.shake {
+  animation: shakeIt 0.4s ease-in-out;
+}
+
+@keyframes shakeIt {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-8px);
+  }
+
+  40% {
+    transform: translateX(8px);
+  }
+
+  60% {
+    transform: translateX(-6px);
+  }
+
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+.feedback-text {
+  margin-top: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.correct-fb {
+  color: #1a1a1a;
+  background: rgba(0, 255, 120, 0.15);
+}
+
+.wrong-fb {
+  color: #1a1a1a;
+  background: rgba(255, 60, 60, 0.15);
+}
+
+/* ========================================
+   DARE WHEEL (Round 2)
+   ======================================== */
+.dare-wheel-container {
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+
+.wheel-wrapper {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 20px auto;
+}
+
+.wheel {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: conic-gradient(var(--pink) 0deg 60deg,
+      var(--peach) 60deg 120deg,
+      var(--lavender) 120deg 180deg,
+      var(--purple) 180deg 240deg,
+      var(--pink) 240deg 300deg,
+      var(--peach) 300deg 360deg);
+  position: relative;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 30px rgba(255, 154, 158, 0.4);
+}
+
+.wheel-segment {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  transform-origin: 0 0;
+  font-size: 0.55rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  padding-left: 18px;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: #fff;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  z-index: 2;
+}
+
+.spin-btn {
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255, 154, 158, 0.4);
+  margin-top: 8px;
+}
+
+.spinning-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 12px;
+  animation: pulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.dare-card {
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.dare-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.dare-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.dare-btn {
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.dare-btn.complete {
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+}
+
+.dare-btn.skip {
+  background: linear-gradient(135deg, #e44d26, #f09819);
+}
+
+.dare-response {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 12px;
+  color: var(--peach);
+}
+
+/* ========================================
+   CHAOS ROUND
+   ======================================== */
+.chaos-question {
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+
+.glitch-mode {
+  animation: glitchBg 0.12s steps(2) infinite;
+}
+
+.glitch-mode .leaderboard {
+  animation: glitchLB 0.15s steps(3) infinite;
+}
+
+@keyframes glitchBg {
+  0% {
+    filter: hue-rotate(0deg) brightness(1);
+  }
+
+  50% {
+    filter: hue-rotate(90deg) brightness(1.3);
+  }
+
+  100% {
+    filter: hue-rotate(-60deg) brightness(0.8);
+  }
+}
+
+@keyframes glitchLB {
+  0% {
+    transform: translate(0);
+  }
+
+  33% {
+    transform: translate(-4px, 2px);
+  }
+
+  66% {
+    transform: translate(4px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.chaos-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0d0d0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.chaos-msg {
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  color: #ff4d6d;
+  text-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
+}
+
+/* ========================================
+   FINAL REVEAL
+   ======================================== */
+.final-reveal {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  text-align: center;
+  padding: 24px;
+  position: relative;
+}
+
+.final-reveal.accepted {
+  background: linear-gradient(135deg, var(--pink), var(--peach));
+  position: fixed;
+  inset: 0;
+}
+
+.infinite-scores {
+  margin-bottom: 32px;
+}
+
+.infinite-line {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.infinite {
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  font-size: 1.6rem;
+}
+
+.romantic-message {
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+.romantic-message p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 10px;
+  opacity: 0.95;
+}
+
+.twist {
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  color: var(--peach);
+  margin-bottom: 16px !important;
+}
+
+.valentine-btn {
+  padding: 18px 40px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 30px rgba(255, 154, 158, 0.5);
+}
+
+.forever-mode {
+  text-align: center;
+}
+
+.forever-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
+}
+
+.forever-sub {
+  font-size: 1.3rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* ========================================
+   SOUND TOAST
+   ======================================== */
+.sound-toast {
+  position: fixed;
+  top: 70px;
+  right: 16px;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 300px;
+}
+
+/* ========================================
+   ANSWER OVERLAY (inline below options)
+   ======================================== */
+.answer-overlay-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.answer-overlay-img {
+  max-width: 180px;
+  max-height: 180px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.25));
+}
+
+/* correct answer glow */
+.option-btn.correct {
+  background: rgba(0, 255, 120, 0.25);
+  border-color: #00ff78;
+  animation: correctGlow 0.6s ease-in-out;
+}
+
+@keyframes correctGlow {
+  0% {
+    box-shadow: 0 0 0 rgba(0, 255, 120, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 120, 0.5);
+  }
+
+  100% {
+    box-shadow: 0 0 0 rgba(0, 255, 120, 0);
+  }
+}
+
+/* ========================================
+   FINAL BUTTONS (YES / NO)
+   ======================================== */
+.valentine-question {
+  text-align: center;
+}
+
+.valentine-ask {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.final-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  min-height: 60px;
+}
+
+.yes-btn {
+  padding: 16px 40px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 30px rgba(255, 154, 158, 0.5);
+  transition: box-shadow 0.3s;
+}
+
+.yes-btn:hover {
+  box-shadow: 0 8px 40px rgba(255, 154, 158, 0.7);
+}
+
+.no-btn {
+  padding: 16px 40px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  transition: left 0.3s ease, top 0.3s ease, transform 0.2s, background 0.2s;
+}
+
+.no-btn:hover {
+  background: rgba(255, 60, 60, 0.2);
+  border-color: rgba(255, 60, 60, 0.5);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 520px) {
+  .leaderboard-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .leaderboard-title {
+    font-size: 1.15rem;
+  }
+
+  .round-title {
+    font-size: 1.15rem;
+  }
+
+  .question-text {
+    font-size: 1.05rem;
+  }
+
+  .forever-title {
+    font-size: 1.6rem;
+  }
+
+  .chaos-msg {
+    font-size: 1.3rem;
+  }
+
+  .wheel-wrapper,
+  .wheel {
+    width: 180px;
+    height: 180px;
+  }
+
+  .answer-overlay-img {
+    max-width: 140px;
+    max-height: 140px;
+  }
+
+  .sound-toast {
+    right: 8px;
+    top: 66px;
+    max-width: 240px;
+    font-size: 0.8rem;
+  }
+
+  .final-buttons-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .yes-btn,
+  .no-btn {
+    padding: 14px 32px;
+    font-size: 1rem;
+  }
+}
